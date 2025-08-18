@@ -1,25 +1,19 @@
 pipeline
 {
-
-agent none
-stages {
-    stage('build')
+    agent {
+        label 'jenkins-test'
+    }
+    stages {
+        stage('build')
     {
-        steps {
-        echo "this is build stage"
+            steps {
+                sh 'mvn clean package'
+            }
+            post {
+                success {
+                    archiveArtfacts artifacts: '**/target/*.war'
+                }
+            }
     }
-   }
-   stage ('test')
-   {
-    steps {
-        echo "this is test stage"
     }
-   }
-   stage ('deploy')
-   {
-    steps {
-        echo "this is deploy stage"
-    }
-   }
-   }
-   }
+}
