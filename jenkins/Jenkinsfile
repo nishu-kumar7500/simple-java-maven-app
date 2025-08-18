@@ -3,6 +3,14 @@ pipeline
     agent {
         label 'jenkins-test'
     }
+    parameters {
+  string defaultValue: 'SINGH', name: 'LASTNAME'
+}
+
+
+    environment {
+        NAME = "NISHU "
+    }
 
     tools {
         maven 'mymaven'
@@ -12,6 +20,7 @@ pipeline
     {
             steps {
                 sh 'mvn clean package'
+                echo "hello $NAME ${params.LASTNAME}"
             }
             post {
                 success {
