@@ -3,9 +3,10 @@ pipeline
     agent {
         label 'jenkins-test'
     }
-    parameters {
-        string defaultValue: 'SINGH', name: 'LASTNAME'
-    }
+   parameters {
+  choice choices: ['dev', 'test'], name: 'select_environment'
+}
+
 
     environment {
         NAME = 'NISHU '
@@ -18,20 +19,23 @@ pipeline
         stage('build')
     {
             steps {
-                sh 'mvn clean package'
-                echo "hello $NAME ${params.LASTNAME}"
+                sh 'mvn clean package -DskipTests=true'
             }
     }
         stage('test') {
             parallel {
                 stage('testA') {
+                    agent {label 'jenkins-test'}
                     steps {
                         echo 'This is test A'
+                        sh "mvn test"
                     }
                 }
                 stage('testB') {
+                    agent {label 'jenkins-dev'}
                     steps {
                         echo 'this is test B'
+                        sh "mvn test"
                     }
                 }
             }
