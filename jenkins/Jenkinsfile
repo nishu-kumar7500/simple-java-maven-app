@@ -4,12 +4,11 @@ pipeline
         label 'jenkins-test'
     }
     parameters {
-  string defaultValue: 'SINGH', name: 'LASTNAME'
-}
-
+        string defaultValue: 'SINGH', name: 'LASTNAME'
+    }
 
     environment {
-        NAME = "NISHU "
+        NAME = 'NISHU '
     }
 
     tools {
@@ -22,11 +21,25 @@ pipeline
                 sh 'mvn clean package'
                 echo "hello $NAME ${params.LASTNAME}"
             }
+    }
+        stage('test') {
+            parallel {
+                stage('testA') {
+                    steps {
+                        echo 'This is test A'
+                    }
+                }
+                stage('testB') {
+                    steps {
+                        echo 'this is test B'
+                    }
+                }
+            }
             post {
                 success {
                     archiveArtifacts artifacts: '**/target/*.jar'
                 }
             }
-    }
+        }
     }
 }
