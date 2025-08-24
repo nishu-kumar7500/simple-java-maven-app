@@ -1,7 +1,10 @@
 package com.example;
 
+import static spark.Spark.*;
+
 public class HelloWorld {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        port(8080); // Set port to 8080
+        get("/", (req, res) -> "Hello, World!");
     }
 }
