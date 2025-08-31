@@ -15,7 +15,7 @@ spec:
         app: myapp
     spec:
       containers:
-        - image: 'ux007893/hathway:728'
+        - image: 'ux007893/hathway:729'
           name: myapp
           ports:
             - containerPort: 80
